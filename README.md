@@ -23,6 +23,7 @@ If you are on Arch or an Arch-derivative, you can install through the AUR [here]
 Otherwise, place the files as follows:
 ```
 /usr/bin/muteled
+/usr/bim/MicMuteLED
 /etc/acpi/actions/muteled.sh
 /etc/acpi/events/mute-led
 ```

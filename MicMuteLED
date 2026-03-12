@@ -4,11 +4,13 @@
 model=$(tr -d '\0' </sys/devices/virtual/dmi/id/product_name | tr -d '\n')
 
 # get mic source
-defaultsource=$(pactl --get-default-source)
+# defaultsource=$(pactl get-default-source)
 
 # Check mute status
 IFS=' ' read -r cuid cuname other <  <(/usr/bin/loginctl list-users | grep active)
-pamixer_mute_status=$(sudo -u $cuname env XDG_RUNTIME_DIR=/run/user/$cuid pamixer --source $defaultsource --get-mute)
+pamixer_mute_status=$(sudo -u $cuname env XDG_RUNTIME_DIR=/run/user/$cuid pamixer --default-source --get-mute)
+
+echo $pamixer_mute_status
 
 # Get Sound Card Number
 card=$(grep "Speaker Playback Volume" /proc/asound/card*/codec*)
@@ -29,7 +31,8 @@ run_set1() {
 	else 
 		hda-verb /dev/snd/$card 0x1 0x716 0x4 
 		hda-verb /dev/snd/$card 0x1 0x717 0x1
-
+	fi
+}
 
 # Function to run set2 commands
 run_set2() {
@@ -41,3 +44,5 @@ run_set2() {
 		hda-verb /dev/snd/$card 0x01 SET_GPIO_DATA 0x04
 	fi
 }
+
+run_set1

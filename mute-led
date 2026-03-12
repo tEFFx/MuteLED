@@ -1,2 +1,2 @@
-event=button/mute.*
+event=button/(mute|micmute).*
 action=/etc/acpi/actions/muteled.sh %e
